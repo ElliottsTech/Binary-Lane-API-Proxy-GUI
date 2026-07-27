@@ -2,6 +2,8 @@
 
 <img width="1173" height="573" alt="dyn-8e2701f16cf24646b933b8edfe6b1faf" src="https://github.com/user-attachments/assets/79715d08-2949-4ae7-b7a8-58f5d69ca5a6" />
 <img width="1182" height="884" alt="image" src="https://github.com/user-attachments/assets/deedfce8-8377-497a-b57e-5184768378bd" />
+Create Custom Roles or use built-in:
+<img width="1156" height="975" alt="image" src="https://github.com/user-attachments/assets/30e5bb44-41cc-4a89-9900-b3556871368c" />
 
 
 A passkey-secured web GUI for managing the [BinaryLane JWT-scoped API proxy](https://support.binarylane.com.au/support/solutions/articles/11000137421) — the APISIX-based proxy that protects your BinaryLane API token behind JWT-authenticated, role-scoped access.
