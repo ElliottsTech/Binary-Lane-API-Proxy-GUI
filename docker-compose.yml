@@ -1,0 +1,33 @@
+# Passkey-secured admin GUI for the BinaryLane JWT-scoped API proxy.
+# Served on port 7100 behind your reverse proxy (HAProxy/Nginx/Caddy/Traefik),
+# on the same hostname as the APISIX proxy (path-split: /v2/* -> apisix, else -> here).
+#
+# Before running: copy .env.example to .env and fill it in.
+services:
+  bl-api-proxy-admin:
+    build: .
+    image: bl-api-proxy-admin:latest
+    container_name: bl-api-proxy-admin
+    ports:
+      - "7100:7100"
+    volumes:
+      - ./data:/app/data
+      # Read-only access to the proxy project so the redeploy feature can
+      # regenerate the Lua policy from roles.json + the generator script.
+      # Adjust the left-hand paths to wherever you installed the proxy project.
+      - ${PROXY_DIR:-../bl-api-proxy}/manifest:/bl-proxy/manifest:ro
+      - ${PROXY_DIR:-../bl-api-proxy}/scripts:/bl-proxy/scripts:ro
+    env_file:
+      - .env
+    restart: unless-stopped
+    networks:
+      - apisix-net        # reach the APISIX admin API (http://bl-apisix:9180)
+      - default
+
+# Join the proxy's docker network so this container can reach APISIX directly.
+# `name:` must match the network created by the proxy's docker-compose (typically
+# "<proxy-project-dir>_apisix-net"). Override via APISIX_NETWORK if it differs.
+networks:
+  apisix-net:
+    name: ${APISIX_NETWORK:-bl-api-proxy_apisix-net}
+    external: true
